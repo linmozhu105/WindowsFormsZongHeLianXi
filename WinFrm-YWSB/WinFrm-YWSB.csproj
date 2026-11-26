@@ -94,6 +94,7 @@
     <Compile Include="Forms\FrmToolBlock.Designer.cs">
       <DependentUpon>FrmToolBlock.cs</DependentUpon>
     </Compile>
+    <Compile Include="IniAPI.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\FrmCameraParams.resx">
