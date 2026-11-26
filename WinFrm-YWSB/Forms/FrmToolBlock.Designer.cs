@@ -137,7 +137,46 @@ namespace WinFrm_YWSB
             this.ClientSize = new System.Drawing.Size(1262, 753);
             this.Controls.Add(this.tlpZhu);
             this.Name = "FrmToolBlock";
-            this.Text = "FrmToolBlock";
+            this.Text = "工具块编辑 — 药丸识别";
+
+            // ==================== 界面样式：与主界面同一套配色 ====================
+            this.BackColor = System.Drawing.Color.FromArgb(245, 247, 250);
+            this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+
+            this.tlpZhu.BackColor = System.Drawing.Color.FromArgb(245, 247, 250);
+            this.tlpZhu.Padding = new System.Windows.Forms.Padding(10);
+            this.tlpDiBu.BackColor = System.Drawing.Color.FromArgb(245, 247, 250);
+
+            this.cogZuoYeBianJi.Margin = new System.Windows.Forms.Padding(0, 0, 0, 8);
+
+            this.grpRiZhi.BackColor = System.Drawing.Color.White;
+            this.grpRiZhi.ForeColor = System.Drawing.Color.FromArgb(33, 43, 54);
+            this.grpRiZhi.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.grpRiZhi.Padding = new System.Windows.Forms.Padding(12, 8, 12, 10);
+
+            this.grpGongNeng.BackColor = System.Drawing.Color.White;
+            this.grpGongNeng.ForeColor = System.Drawing.Color.FromArgb(33, 43, 54);
+            this.grpGongNeng.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+
+            this.lstRiZhi.BackColor = System.Drawing.Color.White;
+            this.lstRiZhi.ForeColor = System.Drawing.Color.FromArgb(33, 43, 54);
+            this.lstRiZhi.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lstRiZhi.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lstRiZhi.IntegralHeight = false;
+
+            // 保存按钮：实心主色，和主界面的“执行检测”一致
+            this.btnBaoCun.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBaoCun.FlatAppearance.BorderSize = 0;
+            this.btnBaoCun.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(58, 108, 183);
+            this.btnBaoCun.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(33, 72, 130);
+            this.btnBaoCun.BackColor = System.Drawing.Color.FromArgb(43, 87, 154);
+            this.btnBaoCun.ForeColor = System.Drawing.Color.White;
+            this.btnBaoCun.Font = new System.Drawing.Font("微软雅黑", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnBaoCun.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnBaoCun.UseVisualStyleBackColor = false;
+
+            // ==================== 界面样式结束 ====================
+
             this.tlpZhu.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.cogZuoYeBianJi)).EndInit();
             this.tlpDiBu.ResumeLayout(false);

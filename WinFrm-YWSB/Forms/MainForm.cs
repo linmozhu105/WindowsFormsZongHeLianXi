@@ -1,7 +1,9 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.IO.Ports;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Cognex.VisionPro;
@@ -106,7 +108,6 @@ namespace WinFrm_YWSB
 
             danLiToolBlock = DanLiToolBlock.Instance;   // 只拿单例，vpp 交给后台线程加载
             EnsureIniFolder();                          // 保证 INI 目录存在，否则写 INI 会静默失败
-            ApplyUiTheme();                             // 统一套用界面样式（配色、字体、按钮、表格）
 
             // 先绑一个空集合，让表格的列结构先画出来；
             // 真实记录由 LoadCsvInThread 读完后通过 BindCsvData 换上去。
@@ -465,7 +466,7 @@ namespace WinFrm_YWSB
         {
             if (acqFifo == null)
             {
-                AppendLog("相机没有连接"); 
+                AppendLog("相机没有连接");
                 return;
             }
 
@@ -574,7 +575,17 @@ namespace WinFrm_YWSB
                 // 4）界面与 INI 统一刷新，避免同一个除法在多处各写一遍
                 RefreshResultPanel();
                 SaveCheckResult();
-
+                // 5）结果回传：串口没打开时 Write 会抛“端口已关闭”，
+                //    那样后面的日志会被 catch 改成“检测失败”，看起来像检测本身出错，
+                //    所以先判一次，把“通信没开”和“检测没跑通”区分开
+                if (serialPort1.IsOpen)
+                {
+                    serialPort1.Write(heGeCount.ToString());
+                }
+                else
+                {
+                    AppendLog("串口未打开，本次结果未回传");
+                }
                 AppendLog("检测成功");
             }
             catch (Exception ex)
@@ -850,198 +861,91 @@ namespace WinFrm_YWSB
             // GigE传输延迟级别：整型档位，数值越大越抗丢包、帧率越低
             acqFifo.OwnedGigEVisionTransportParams.LatencyLevel = cameraParams.Level;
         }
+
         #endregion
 
-        #region 十七、界面主题（视觉样式）
-
-        // 配色常量：以后换肤只改这几行，Designer 文件里只管位置和尺寸
-        private static readonly Color YanSeZhu = Color.FromArgb(43, 87, 154);          // 主色：深蓝
-        private static readonly Color YanSeZhuShen = Color.FromArgb(33, 72, 130);      // 主色按下
-        private static readonly Color YanSeZhuQian = Color.FromArgb(232, 240, 250);    // 主色浅底（悬停/选中）
-        private static readonly Color YanSeBeiJing = Color.FromArgb(245, 247, 250);    // 窗体背景
-        private static readonly Color YanSeKaPian = Color.White;                        // 卡片白底
-        private static readonly Color YanSeWenZi = Color.FromArgb(33, 43, 54);         // 主文字
-        private static readonly Color YanSeWenZiCi = Color.FromArgb(110, 120, 132);    // 次文字
-        private static readonly Color YanSeBianKuang = Color.FromArgb(220, 225, 232);  // 分隔线
-
-        private static readonly Font ZiTiZhengChang = new Font("微软雅黑", 9F);
-        private static readonly Font ZiTiBiaoTi = new Font("微软雅黑", 10F, FontStyle.Bold);
-        private static readonly Font ZiTiShuZi = new Font("微软雅黑", 12F, FontStyle.Bold);
-        private static readonly Font ZiTiAnNiu = new Font("微软雅黑", 9.5F);
-
         /// <summary>
-        /// 统一套用界面样式。
-        /// 外观全部在代码里做，Designer 文件保持“只放位置和尺寸”，
-        /// 好处是换配色不用在属性窗口逐个控件点，也不会因为设计器重存而丢样式。
+        /// “通信 → 开启通信 / 关闭通信”开关。
+        /// 判断依据改用 serialPort1.IsOpen（串口的真实状态），不再依赖菜单文字。
+        ///
+        /// 原代码的三处错：
+        /// 1）判断和赋值都写在父菜单 tsmiTongXin 上（if 判 tsmiTongXin.Text，两个分支也给
+        ///    tsmiTongXin.Text 赋值），而用户点击、看得见的是子菜单 开启通信ToolStripMenuItem；
+        /// 2）子菜单的文字从头到尾没被改过，所以点完还是“开启通信”，看起来像没反应；
+        /// 3）父菜单标签被覆盖成“开启通信 / 关闭通信”，菜单栏上原来的“通信”二字就没了，
+        ///    截图里那一项显示成“关闭通信”正是这个原因。
+        /// 更麻烦的是串口变成“隔一次点才真正打开”：第一次点走 else 关端口，
+        /// 第二次点条件才成立去 Open，第三次点又关掉……所以通信时开时不开，
+        /// 对端（端口 2）发过来的数据自然时有时无。
         /// </summary>
-        private void ApplyUiTheme()
+        private void 开启通信ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // 1. 窗体
-            this.BackColor = YanSeBeiJing;
-            this.Font = ZiTiZhengChang;
-            this.Text = "药丸视觉检测系统";
-
-            // 2. 菜单：白底深字，字号略大
-            mnsCaiDan.BackColor = YanSeKaPian;
-            mnsCaiDan.Font = new Font("微软雅黑", 9.5F);
-            mnsCaiDan.Padding = new Padding(12, 6, 0, 6);
-
-            // 3. 主分栏：浅灰底 + 外边距，靠间隙形成“卡片区”的感觉
-            tlpZhu.BackColor = YanSeBeiJing;
-            tlpZhu.Padding = new Padding(10);
-            tlpZuo.BackColor = YanSeBeiJing;
-            tlpYou.BackColor = YanSeBeiJing;
-            tlpYouDi.BackColor = YanSeBeiJing;
-
-            // 4. 两个图像显示：黑底更接近相机画面
-            cogXianShiYuanTu.BackColor = Color.Black;
-            cogXianShiJianCeTu.BackColor = Color.Black;
-            cogXianShiYuanTu.Margin = new Padding(0, 0, 10, 8);
-            cogXianShiJianCeTu.Margin = new Padding(10, 0, 0, 8);
-
-            // 5. 页签：标签宽度固定，避免文字被截断
-            tabJieGuoJiLu.Font = ZiTiZhengChang;
-            tabJieGuoJiLu.ItemSize = new Size(120, 30);
-            tabJieGuoJiLu.SizeMode = TabSizeMode.Fixed;
-            tabJieGuoJiLu.Padding = new Point(12, 6);
-            tabYeJianCeJieGuo.BackColor = YanSeKaPian;
-            tabYeJianCeJiLu.BackColor = YanSeKaPian;
-
-            // 6. 分组框：白底 + 深色粗体标题 + 内边距
-            grpJianCeJieGuo.BackColor = YanSeKaPian;
-            grpJianCeJieGuo.ForeColor = YanSeWenZi;
-            grpJianCeJieGuo.Font = ZiTiBiaoTi;
-            grpJianCeJieGuo.Padding = new Padding(16, 10, 16, 14);
-            tlpJieGuo.BackColor = YanSeKaPian;
-
-            grpRiZhi.BackColor = YanSeKaPian;
-            grpRiZhi.ForeColor = YanSeWenZi;
-            grpRiZhi.Font = ZiTiBiaoTi;
-            grpRiZhi.Padding = new Padding(12, 10, 12, 12);
-
-            grpGongNengQu.BackColor = YanSeKaPian;
-            grpGongNengQu.ForeColor = YanSeWenZi;
-            grpGongNengQu.Font = ZiTiBiaoTi;
-
-            // 7. 按钮：执行检测是主操作，用实心主色；其余白底描边
-            MeiHuaAnNiu(btnZhiXingJianCe, true);
-            MeiHuaAnNiu(btnXuanZeTuXiang, false);
-            MeiHuaAnNiu(btnJiaZaiShuJu, false);
-            MeiHuaAnNiu(btnLianJieXiangJi, false);
-            MeiHuaAnNiu(btnXiangJiCaiJi, false);
-            MeiHuaAnNiu(btnLianXuCaiJi, false);
-            MeiHuaAnNiu(btnQingLing, false);
-
-            // 8. 检测结果：数字用大字号右对齐，标签用次要色
-            MeiHuaShuZiKuang(txtOK);
-            MeiHuaShuZiKuang(txtNG);
-            MeiHuaShuZiKuang(txtLiangPinLv);
-            MeiHuaShuZiKuang(txtZongShu);
-
-            foreach (Label lbl in new Label[] { lblOK, lblNG, lblLiangPinLv, lblZongShu })
+            // 被点击的菜单项。用 sender 取，读文字和改文字就是同一个控件，不会再认错对象
+            ToolStripMenuItem mi = sender as ToolStripMenuItem;
+            if (mi == null)
             {
-                lbl.Font = ZiTiZhengChang;
-                lbl.ForeColor = YanSeWenZiCi;
+                return;
             }
 
-            // 9. 检测记录表格
-            MeiHuaBiaoGe();
-
-            // 10. 日志
-            lstRiZhi.BorderStyle = BorderStyle.FixedSingle;
-            lstRiZhi.BackColor = YanSeKaPian;
-            lstRiZhi.ForeColor = YanSeWenZi;
-            lstRiZhi.Font = ZiTiZhengChang;
-            lstRiZhi.IntegralHeight = false;   // 让列表铺满分组框，底部不留半行空白
-            // 横向滚动条：ListBox 只有自绘模式（OwnerDrawFixed）才真正响应 HorizontalExtent，
-            // 普通模式即使设了 HorizontalScrollbar=true 也不会画出滚动条。
-            // DrawItem 里用 e.DrawDefault = true 交回系统绘制，所以外观和普通列表完全一样。
-            lstRiZhi.DrawMode = DrawMode.OwnerDrawFixed;
-            lstRiZhi.ItemHeight = TextRenderer.MeasureText("测Ag", ZiTiZhengChang).Height + 4;
-            lstRiZhi.DrawItem += lstRiZhi_DrawItem;
-            lstRiZhi.HorizontalScrollbar = true;
-            lstRiZhi.HorizontalExtent = 0;
+            if (!serialPort1.IsOpen)
+            {
+                try
+                {
+                    serialPort1.Open();
+                    // 订阅必须放在 Open 之后：Open 失败时不会残留一个指向死端口的订阅
+                    serialPort1.DataReceived += Sp_DataReceived;
+                    mi.Text = "关闭通信";
+                    // 把实际生效的串口参数写进日志：波特率对不上，是“发得出去、收不回来”的头号原因
+                    AppendLog($"串口 {serialPort1.PortName} 已打开：{serialPort1.BaudRate},"
+                              + $"{serialPort1.DataBits},{serialPort1.Parity},{serialPort1.StopBits}");
+                }
+                catch (Exception ex)
+                {
+                    // 常见原因：端口号不存在、被串口调试助手等程序占用、权限不足
+                    AppendLog($"打开 {serialPort1.PortName} 失败：{ex.Message}");
+                }
+            }
+            else
+            {
+                // 先退订再 Close：Close 之后仍可能有一两个回调在路上
+                serialPort1.DataReceived -= Sp_DataReceived;
+                serialPort1.Close();
+                mi.Text = "开启通信";
+                AppendLog($"串口 {serialPort1.PortName} 已关闭");
+            }
+            // 关闭串口：这一步之后端口不可再读写，需要重新 Open 才能继续通信
         }
 
         /// <summary>
-        /// 按钮外观：主按钮实心主色白字，次按钮白底主色描边，悬停变浅蓝。
-        /// 只改颜色与字体，尺寸沿用设计器的 100×44，避免打乱既有摆位。
+        /// 串口收到数据时触发。注意三件事：
+        /// 1）它跑在串口自己的接收线程上，不是 UI 线程，不能直接改控件；
+        ///    AppendLog 内部已经判断 InvokeRequired，会自己回到 UI 线程；
+        /// 2）DataReceived 只保证“至少到了 1 个字节”，一帧数据可能被拆成多次回调，
+        ///    正式项目要自己拼包（按换行符 / 固定长度 / 超时判断一帧结束）；
+        /// 3）收到什么必须写出来，否则“收到了但没显示”和“根本没收到”现象完全一样。
         /// </summary>
-        private void MeiHuaAnNiu(Button btn, bool shiZhuYao)
+        public void Sp_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            btn.FlatStyle = FlatStyle.Flat;
-            btn.FlatAppearance.BorderSize = shiZhuYao ? 0 : 1;
-            btn.FlatAppearance.BorderColor = YanSeZhu;
-            btn.FlatAppearance.MouseOverBackColor = shiZhuYao ? Color.FromArgb(58, 108, 183) : YanSeZhuQian;
-            btn.FlatAppearance.MouseDownBackColor = shiZhuYao ? YanSeZhuShen : Color.FromArgb(210, 226, 245);
-            btn.BackColor = shiZhuYao ? YanSeZhu : YanSeKaPian;
-            btn.ForeColor = shiZhuYao ? Color.White : YanSeZhu;
-            btn.Font = ZiTiAnNiu;
-            btn.Cursor = Cursors.Hand;
-            btn.UseVisualStyleBackColor = false;
-        }
-
-        /// <summary>数字显示框：白底细边、12 号粗体、右对齐，像仪表读数</summary>
-        private void MeiHuaShuZiKuang(TextBox txt)
-        {
-            txt.BackColor = YanSeKaPian;
-            txt.ForeColor = YanSeWenZi;
-            txt.BorderStyle = BorderStyle.FixedSingle;
-            txt.Font = ZiTiShuZi;
-            txt.TextAlign = HorizontalAlignment.Right;
-        }
-
-        /// <summary>表格：深蓝表头 + 斑马纹 + 整行选中，去掉左侧空的行头列</summary>
-        private void MeiHuaBiaoGe()
-        {
-            dgvJianCeJiLu.BackgroundColor = YanSeKaPian;
-            dgvJianCeJiLu.BorderStyle = BorderStyle.None;
-            dgvJianCeJiLu.EnableHeadersVisualStyles = false;   // 不关掉这条，自定义表头颜色不生效
-
-            dgvJianCeJiLu.RowHeadersVisible = false;
-            dgvJianCeJiLu.AllowUserToAddRows = false;
-            dgvJianCeJiLu.AllowUserToDeleteRows = false;
-            dgvJianCeJiLu.AllowUserToResizeRows = false;
-            dgvJianCeJiLu.ReadOnly = true;
-            dgvJianCeJiLu.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvJianCeJiLu.MultiSelect = false;
-            dgvJianCeJiLu.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-            dgvJianCeJiLu.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dgvJianCeJiLu.ColumnHeadersHeight = 34;
-            dgvJianCeJiLu.ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
+            // sender 就是触发事件的 SerialPort 实例，转成具体类型后才能读数据
+            SerialPort sp = sender as SerialPort;
+            if (sp == null || !sp.IsOpen)
             {
-                BackColor = YanSeZhu,
-                ForeColor = Color.White,
-                Font = new Font("微软雅黑", 9.5F, FontStyle.Bold),
-                Alignment = DataGridViewContentAlignment.MiddleCenter,
-                SelectionBackColor = YanSeZhu,
-                SelectionForeColor = Color.White
-            };
+                return;   // 关闭瞬间仍可能有回调在路上，直接丢弃，避免访问已关闭的端口
+            }
 
-            dgvJianCeJiLu.DefaultCellStyle = new DataGridViewCellStyle
+            // BytesToRead：接收缓冲区里已到达的字节数
+            int size = sp.BytesToRead;
+            if (size <= 0)
             {
-                BackColor = YanSeKaPian,
-                ForeColor = YanSeWenZi,
-                Font = ZiTiZhengChang,
-                Alignment = DataGridViewContentAlignment.MiddleCenter,
-                SelectionBackColor = YanSeZhuQian,
-                SelectionForeColor = YanSeZhuShen,
-                Padding = new Padding(4, 0, 4, 0)
-            };
+                return;
+            }
 
-            dgvJianCeJiLu.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(249, 251, 253);
-            dgvJianCeJiLu.GridColor = YanSeBianKuang;
-            dgvJianCeJiLu.RowTemplate.Height = 30;
-
-            // 时间列给宽一点，结果列窄一点
-            colShiJian.FillWeight = 190F;
-            colHeGeShuLiang.FillWeight = 100F;
-            colQueXianShuLiang.FillWeight = 100F;
-            colQueShiShuLiang.FillWeight = 100F;
-            colJieGuo.FillWeight = 80F;
+            byte[] buffer = new byte[size];
+            // 把缓冲区里的字节全部读进 buffer（第三个参数是要读的字节数）
+            sp.Read(buffer, 0, size);
+            // 按 UTF-8 解码；若对端用 GBK 发送，中文会变乱码，需换成 Encoding.GetEncoding("GBK")
+            string data = Encoding.UTF8.GetString(buffer);
+            AppendLog($"[{sp.PortName}] 收到：{data}");
         }
-
-        #endregion
     }
 }

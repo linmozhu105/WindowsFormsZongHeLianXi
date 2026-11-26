@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+using System;
 using System.Windows.Forms;
 using Cognex.VisionPro.ToolBlock;
 
@@ -31,7 +30,6 @@ namespace WinFrm_YWSB
         public FrmToolBlock(CogToolBlock cogToolBlock)
         {
             InitializeComponent();
-            ApplyUiTheme();     // 跟主界面同一套配色，避免两个窗口风格打架
 
             this.cogToolBlock = cogToolBlock;
 
@@ -94,54 +92,6 @@ namespace WinFrm_YWSB
             {
                 AppendLog("保存失败，请检查路径或文件占用情况");
             }
-        }
-
-        #endregion
-
-        #region 五、界面样式
-
-        /// <summary>
-        /// 与主界面统一的外观：浅灰底、白卡片、深蓝描边按钮。
-        /// 只改配色与字体，布局仍由 Designer 控制。
-        /// </summary>
-        private void ApplyUiTheme()
-        {
-            Color yanSeZhu = Color.FromArgb(43, 87, 154);
-            Color yanSeBeiJing = Color.FromArgb(245, 247, 250);
-
-            this.BackColor = yanSeBeiJing;
-            this.Font = new Font("微软雅黑", 9F);
-            this.Text = "工具块编辑 — 药丸识别";
-
-            tlpZhu.BackColor = yanSeBeiJing;
-            tlpZhu.Padding = new Padding(10);
-            tlpDiBu.BackColor = yanSeBeiJing;
-
-            cogZuoYeBianJi.Margin = new Padding(0, 0, 0, 8);
-
-            grpRiZhi.BackColor = Color.White;
-            grpRiZhi.ForeColor = Color.FromArgb(33, 43, 54);
-            grpRiZhi.Font = new Font("微软雅黑", 10F, FontStyle.Bold);
-            grpRiZhi.Padding = new Padding(12, 8, 12, 10);
-
-            grpGongNeng.BackColor = Color.White;
-            grpGongNeng.ForeColor = Color.FromArgb(33, 43, 54);
-            grpGongNeng.Font = new Font("微软雅黑", 10F, FontStyle.Bold);
-
-            lstRiZhi.BorderStyle = BorderStyle.None;
-            lstRiZhi.BackColor = Color.White;
-            lstRiZhi.ForeColor = Color.FromArgb(33, 43, 54);
-            lstRiZhi.Font = new Font("微软雅黑", 9F);
-            lstRiZhi.IntegralHeight = false;
-
-            btnBaoCun.FlatStyle = FlatStyle.Flat;
-            btnBaoCun.FlatAppearance.BorderSize = 0;
-            btnBaoCun.FlatAppearance.MouseOverBackColor = Color.FromArgb(58, 108, 183);
-            btnBaoCun.BackColor = yanSeZhu;
-            btnBaoCun.ForeColor = Color.White;
-            btnBaoCun.Font = new Font("微软雅黑", 9.5F);
-            btnBaoCun.Cursor = Cursors.Hand;
-            btnBaoCun.UseVisualStyleBackColor = false;
         }
 
         #endregion
