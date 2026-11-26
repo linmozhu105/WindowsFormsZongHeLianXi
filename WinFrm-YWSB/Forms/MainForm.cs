@@ -465,7 +465,7 @@ namespace WinFrm_YWSB
         {
             if (acqFifo == null)
             {
-                AppendLog("相机没有连接");
+                AppendLog("相机没有连接"); 
                 return;
             }
 
