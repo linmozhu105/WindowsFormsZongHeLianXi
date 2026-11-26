@@ -1,0 +1,360 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Windows.Markup;
+using Cognex.VisionPro;
+using Cognex.VisionPro.ToolBlock;
+using WindowsFormsApp1;
+
+namespace WinFrm_YWSB
+{
+    public partial class MainForm : Form
+    {
+        /// <summary>
+        /// 24位彩色图像
+        /// </summary>
+        CogImage24PlanarColor image;
+        /// <summary>
+        /// 工具块
+        /// </summary>
+        private CogToolBlock cogToolBlock;
+        private bool IsVppReady = false;
+        private DanLiToolBlock danLiToolBlock;
+        private BindingList<CsvData> list;
+        private string iniFile = Path.Combine(Application.StartupPath, "INI", "Result.ini");
+        private string iniFileXJ = Path.Combine(Application.StartupPath, "INI", "XinagJi.ini");
+        private ICogFrameGrabber frameGrabber;
+        private ICogAcqFifo acqFifo;
+        private ICogImage cogImage;
+        int OKCount = 0;
+        int NGCount = 0;
+        public MainForm()
+        {
+            InitializeComponent();
+            danLiToolBlock = DanLiToolBlock.Instance;   // 只是拿到单例，不读 vpp
+            list = new BindingList<CsvData>();      //  先绑一个空表，让 DataGridView 结构先画出来
+            this.dataGridView1.DataSource = list;
+        }
+
+        #region
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);          // 先让基类完成显示，再干活
+
+            // 这两件事都放在这里，不在构造函数里
+            LoadCsvInThread();
+            LoadIniInThread();
+            LoadVppInThread();
+        }
+
+        #region
+        private void LoadCsvInThread()
+        {
+            Thread thread = new Thread(() =>
+            {
+                try
+                {
+                    BindingList<CsvData> data = CsvAPI.ReadCsv();
+                    if (data == null)
+                    {
+                        data = new BindingList<CsvData>();
+                    }
+                    BindCsvData(data);
+                }
+                catch (Exception ex)
+                {
+                    try
+                    {
+                        this.Invoke(new Action(() => AppendLog($"读取检测记录失败：{ex.Message}")));
+                    }
+                    catch { }   // 窗体已关闭时 Invoke 也会抛，这里吞掉即可
+                }
+            });
+            thread.IsBackground = true;
+            thread.Start();
+        }
+        private void BindCsvData(BindingList<CsvData> data)
+        {
+            // 窗体已关闭就不再碰控件，否则 Invoke 会抛异常
+            if (this.IsDisposed) return;
+
+            // 子线程调进来时，转给 UI 线程再执行
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(() => BindCsvData(data)));
+                return;
+            }
+
+            list = data;
+            this.dataGridView1.DataSource = list;
+
+            if (list.Count == 0)
+            {
+                AppendLog("本月暂无检测记录");
+            }
+            else
+            {
+                AppendLog($"检测记录加载完成，共 {list.Count} 条");
+            }
+        }
+        private void LoadIniInThread()
+        {
+            Thread thread = new Thread(() =>
+            {
+                try
+                {
+                    string OkStr = IniAPI.INIGetStringValue(iniFile, "检测结果存储", "OK", "0");
+                    string NgStr = IniAPI.INIGetStringValue(iniFile, "检测结果存储", "NG", "0");
+                    string RateStr = IniAPI.INIGetStringValue(iniFile, "检测结果存储", "Rate", "0");
+                    string TotalStr = IniAPI.INIGetStringValue(iniFile, "检测结果存储", "Total", "0");
+                    this.Invoke(new Action(() =>
+                    {
+                        ApplyCheckResult(OkStr, NgStr, RateStr, TotalStr);
+                    }));
+                }
+                catch (Exception ex)
+                {
+                    try
+                    {
+                        this.Invoke(new Action(() => AppendLog($"读取检测结果失败：{ex.Message}")));
+                    }
+                    catch { }
+                }
+            });
+            thread.IsBackground = true;
+            thread.Start();
+        }
+        private void ApplyCheckResult(string okStr, string ngStr, string rateStr, string totalStr)
+        {
+            if (this.IsDisposed) return;    // 窗体已关闭就不再动控件
+            int ok = 0, ng = 0, total = 0;
+            double rate = 0;
+
+            int.TryParse(okStr, out ok);          // TryParse 兜底：ini 被手改坏也不会崩
+            int.TryParse(ngStr, out ng);
+            int.TryParse(totalStr, out total);
+            double.TryParse(rateStr, out rate);   // 解析失败时 rate 保持 0
+            OKCount = ok;      // 字段只在 UI 线程赋值，和 button2_Click 不冲突
+            NGCount = ng;
+
+            txtOK.Text = ok.ToString();
+            txtNG.Text = ng.ToString();
+            txtZongShu.Text = total.ToString();
+            txtLiangPinLv.Text = rate.ToString("P2");   // 和检测后的显示格式保持一致
+        }
+        private void LoadVppInThread()
+        {
+            Thread thred = new Thread(() =>
+            {
+                try
+                {
+                    cogToolBlock = danLiToolBlock.GetToolBlock();
+                    if (cogToolBlock == null)
+                    {
+                        this.Invoke(new Action(() => AppendLog("加载工具块失败")));
+                        return;
+                    }
+                    this.Invoke(new Action(() =>
+                    {
+                        IsVppReady = true;
+                        AppendLog("加载工具块成功");
+                    }));
+
+                }
+                catch (Exception ex)
+                {
+                    this.Invoke(new Action(() => AppendLog($"加载工具块失败:{ex.Message}")));
+                }
+            });
+            thred.IsBackground = true;
+            thred.Start();
+        }
+        #endregion
+
+        #endregion
+
+        #region 日志
+        private void AppendLog(string msessage)
+        {
+            if (this.listBox1.InvokeRequired)
+            {
+                this.listBox1.Invoke(new Action<string>(AppendLog), msessage);
+            }
+            else
+            {
+                this.listBox1.Items.Insert(0, $"{DateTime.Now.ToString()}:{msessage}");
+                this.listBox1.SelectedIndex = 0;
+            }
+        }
+        #endregion
+
+        #region 采集图像按钮
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "图像文件|*.bmp;*.jpg;*.jpeg;*.png;*.tif;*.tiff|所有文件|*.*";
+            openFileDialog.Title = "选择图像文件";
+            openFileDialog.RestoreDirectory = true;
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = openFileDialog.FileName;
+                Bitmap bitmap = Bitmap.FromFile(filePath) as Bitmap;
+
+                image = new CogImage24PlanarColor(bitmap);
+                cogRecordDisplay1.Image = image;
+                cogRecordDisplay1.Fit();
+            }
+        }
+        #endregion
+
+        #region 检测图像按钮
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                cogToolBlock = danLiToolBlock.ToolBlock;
+                cogToolBlock.Inputs[0].Value = image;
+                cogToolBlock.Run();
+                this.cogRecordDisplay2.Record = cogToolBlock.CreateLastRunRecord().SubRecords[0];
+                this.cogRecordDisplay2.Fit();
+
+                int.TryParse(cogToolBlock.Outputs["OKNum"].Value.ToString(), out int HeGeCount);
+                int.TryParse(cogToolBlock.Outputs["NGNum"].Value.ToString(), out int QueXianCount);
+                int.TryParse(cogToolBlock.Outputs["QueShiNum"].Value.ToString(), out int QueShiCount);
+                string JieCuo = HeGeCount == 15 ? "合格" : "不合格";
+                CsvAPI.WriteCsv(HeGeCount.ToString(), QueXianCount.ToString(), QueShiCount.ToString(), JieCuo);
+                CsvData csvData = new CsvData(DateTime.Now.ToString(), HeGeCount.ToString(), QueXianCount.ToString(), QueShiCount.ToString(), JieCuo);
+                list.Add(csvData);
+                if (JieCuo == "合格")
+                {
+                    OKCount++;
+                }
+                else
+                {
+                    NGCount++;
+                }
+                int total = OKCount + NGCount;
+                double rate = total > 0 ? (double)OKCount / total : 0;
+                txtOK.Text = OKCount.ToString();
+                txtNG.Text = NGCount.ToString();
+                txtLiangPinLv.Text = rate.ToString("P2");
+                txtZongShu.Text = total.ToString();
+                SaveCheckResult(OKCount, NGCount, rate, total);
+                AppendLog("检测成功");
+            }
+            catch (Exception ex)
+            {
+                AppendLog("检测失败: " + ex.Message);
+            }
+        }
+        #endregion
+
+        #region
+        private void SaveCheckResult(int OK, int NG, double Rate, int Total)
+        {
+            IniAPI.INIWriteValue(iniFile, "检测结果存储", "OK", OK.ToString());
+            IniAPI.INIWriteValue(iniFile, "检测结果存储", "NG", NG.ToString());
+            IniAPI.INIWriteValue(iniFile, "检测结果存储", "Rate", Rate.ToString("F4"));
+            IniAPI.INIWriteValue(iniFile, "检测结果存储", "Total", Total.ToString());
+        }
+
+        #endregion
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            AppendLog("开始刷新历史数据…");
+            LoadCsvInThread();
+        }
+
+        #region 编辑作业菜单
+        /// <summary>
+        /// “编辑作业 → 药丸识别TB”：设计器里已绑定 Click，
+        /// 这里先占位输出日志，后续在此打开 CogToolBlock 的编辑界面
+        /// </summary>
+        private void tsmiCeLiangDianPian_Click(object sender, EventArgs e)
+        {
+            FrmToolBlock frmToolBlock = new FrmToolBlock(danLiToolBlock.ToolBlock);
+            frmToolBlock.ShowDialog();
+        }
+        #endregion
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            string value = IniAPI.INIGetStringValue(iniFileXJ, "检测结果存储", "OK", "true");
+            CogFrameGrabbers frameGrabbers = new CogFrameGrabbers();
+            if (frameGrabbers==null||frameGrabbers.Count<1)
+            {
+                AppendLog("未找到相机,请检测是否连接正常");
+                return;
+            }
+            frameGrabber = frameGrabbers[0];
+            AppendLog("成功抓取相机");
+            // 参数1：视频格式 GigE Bayer彩色格式
+            // 参数2：像素格式 8bit灰度
+            // 参数3：相机端口 0
+            // 参数4：autoPrepare=true，自动初始化硬件
+            acqFifo = frameGrabber.CreateAcqFifo("Generic GigEVision (Bayer Color)", CogAcqFifoPixelFormatConstants.Format8Grey, 0, true);
+            acqFifo.Complete += Fifo_Complete;
+        }
+        private void Fifo_Complete(object sender, EventArgs e)
+        {
+            try
+            {
+                // 查询FIFO状态
+                // numPending：等待采集任务数
+                // numReady：已经采集完成、待取出图像数量
+                // busy：相机是否正在采集
+                acqFifo.GetFifoState(out int numPending, out int numReady, out bool busy);
+                if (numReady>0)
+                {
+                    CogAcqInfo cogAcqInfo = new CogAcqInfo();
+                    cogImage = acqFifo.CompleteAcquireEx(cogAcqInfo);
+                    this.cogRecordDisplay1.Image = cogImage;
+                    this.cogRecordDisplay1.Fit();
+                }
+            }
+            catch (Exception ex)
+            {
+                AppendLog($"相机采集异常:{ex}");
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (acqFifo == null)
+            {
+                AppendLog("相机没有连接");
+                return;
+            }
+            // 启动FIFO采集任务
+            acqFifo.StartAcquire();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (acqFifo == null)
+            {
+                AppendLog("相机没有连接");
+                return;
+            }
+        }
+
+        private void btnQingLing_Click(object sender, EventArgs e)
+        {
+            IniAPI.INIWriteValue(iniFile, "检测结果存储", "OK", 0.ToString());
+            IniAPI.INIWriteValue(iniFile, "检测结果存储", "NG", 0.ToString());
+            IniAPI.INIWriteValue(iniFile, "检测结果存储", "Rate", 0.ToString("F4"));
+            IniAPI.INIWriteValue(iniFile, "检测结果存储", "Total", 0.ToString());
+            LoadIniInThread();
+        }
+    }
+}

@@ -1,0 +1,49 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using Cognex.VisionPro.ToolBlock;
+
+namespace WinFrm_YWSB
+{
+    public partial class FrmToolBlock : Form
+    {
+        public CogToolBlock cogToolBlock;
+        public FrmToolBlock(CogToolBlock cogToolBlock)
+        {
+            InitializeComponent();
+            this.cogToolBlock = cogToolBlock;
+            cogToolBlockEditV.Subject = this.cogToolBlock;
+        }
+        private void AppendLog(string msessage)
+        {
+            if (this.listBox1.InvokeRequired)
+            {
+                this.listBox1.Invoke(new Action<string>(AppendLog), msessage);
+            }
+            else
+            {
+                this.listBox1.Items.Insert(0, $"{DateTime.Now.ToString()}:{msessage}");
+                this.listBox1.SelectedIndex = 0;
+            }
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            CogToolBlock cogToolBlock = cogToolBlockEditV.Subject;
+            bool result = DanLiToolBlock.SaveVpp(cogToolBlock);
+            if (result)
+            {
+                MessageBox.Show("保存成功，请重启程序生效");
+            }
+            else
+            {
+                MessageBox.Show("保存失败，请检查路径或文件占用情况");
+            }
+        }
+    }
+}

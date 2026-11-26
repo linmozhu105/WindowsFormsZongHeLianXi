@@ -1,0 +1,719 @@
+﻿namespace WinFrm_YWSB
+{
+    partial class MainForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            this.mnsCaiDan = new System.Windows.Forms.MenuStrip();
+            this.tsmiBianJiZuoYe = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiCeLiangDianPian = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiShuJu = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiXiuGaiBaoCunShuJu = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiXiangJi = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiXiuGaiXiangJiCanShu = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiJiZhun = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiSheZhiJiZhunDian = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiBiaoDing = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiSheZhiYinDaoBiaoDing = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiTongXin = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiXiuGaiTongXinFangShi = new System.Windows.Forms.ToolStripMenuItem();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.cogRecordDisplay1 = new Cognex.VisionPro.CogRecordDisplay();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.cogRecordDisplay2 = new Cognex.VisionPro.CogRecordDisplay();
+            this.修改相机参数ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.grpJianCeJieGuo = new System.Windows.Forms.GroupBox();
+            this.tlpJieGuo = new System.Windows.Forms.TableLayoutPanel();
+            this.lblOK = new System.Windows.Forms.Label();
+            this.txtOK = new System.Windows.Forms.TextBox();
+            this.lblNG = new System.Windows.Forms.Label();
+            this.txtNG = new System.Windows.Forms.TextBox();
+            this.lblLiangPinLv = new System.Windows.Forms.Label();
+            this.txtLiangPinLv = new System.Windows.Forms.TextBox();
+            this.lblZongShu = new System.Windows.Forms.Label();
+            this.txtZongShu = new System.Windows.Forms.TextBox();
+            this.btnQingLing = new System.Windows.Forms.Button();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.mnsCaiDan.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cogRecordDisplay1)).BeginInit();
+            this.tableLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cogRecordDisplay2)).BeginInit();
+            this.tableLayoutPanel4.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.grpJianCeJieGuo.SuspendLayout();
+            this.tlpJieGuo.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // mnsCaiDan
+            // 
+            this.mnsCaiDan.BackColor = System.Drawing.Color.White;
+            this.mnsCaiDan.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.mnsCaiDan.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(41)))), ((int)(((byte)(55)))));
+            this.mnsCaiDan.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.mnsCaiDan.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiBianJiZuoYe,
+            this.tsmiShuJu,
+            this.tsmiXiangJi,
+            this.tsmiJiZhun,
+            this.tsmiBiaoDing,
+            this.tsmiTongXin});
+            this.mnsCaiDan.Location = new System.Drawing.Point(0, 0);
+            this.mnsCaiDan.Name = "mnsCaiDan";
+            this.mnsCaiDan.Padding = new System.Windows.Forms.Padding(12, 6, 0, 6);
+            this.mnsCaiDan.Size = new System.Drawing.Size(1262, 36);
+            this.mnsCaiDan.TabIndex = 4;
+            this.mnsCaiDan.Text = "mnsCaiDan";
+            // 
+            // tsmiBianJiZuoYe
+            // 
+            this.tsmiBianJiZuoYe.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiCeLiangDianPian});
+            this.tsmiBianJiZuoYe.Name = "tsmiBianJiZuoYe";
+            this.tsmiBianJiZuoYe.Size = new System.Drawing.Size(83, 24);
+            this.tsmiBianJiZuoYe.Text = "编辑作业";
+            // 
+            // tsmiCeLiangDianPian
+            // 
+            this.tsmiCeLiangDianPian.Name = "tsmiCeLiangDianPian";
+            this.tsmiCeLiangDianPian.Size = new System.Drawing.Size(224, 26);
+            this.tsmiCeLiangDianPian.Text = "药丸识别TB";
+            this.tsmiCeLiangDianPian.Click += new System.EventHandler(this.tsmiCeLiangDianPian_Click);
+            // 
+            // tsmiShuJu
+            // 
+            this.tsmiShuJu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiXiuGaiBaoCunShuJu});
+            this.tsmiShuJu.Name = "tsmiShuJu";
+            this.tsmiShuJu.Size = new System.Drawing.Size(53, 24);
+            this.tsmiShuJu.Text = "数据";
+            // 
+            // tsmiXiuGaiBaoCunShuJu
+            // 
+            this.tsmiXiuGaiBaoCunShuJu.Name = "tsmiXiuGaiBaoCunShuJu";
+            this.tsmiXiuGaiBaoCunShuJu.Size = new System.Drawing.Size(224, 26);
+            this.tsmiXiuGaiBaoCunShuJu.Text = "查看保存数据";
+            // 
+            // tsmiXiangJi
+            // 
+            this.tsmiXiangJi.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiXiuGaiXiangJiCanShu,
+            this.修改相机参数ToolStripMenuItem});
+            this.tsmiXiangJi.Name = "tsmiXiangJi";
+            this.tsmiXiangJi.Size = new System.Drawing.Size(53, 24);
+            this.tsmiXiangJi.Text = "相机";
+            // 
+            // tsmiXiuGaiXiangJiCanShu
+            // 
+            this.tsmiXiuGaiXiangJiCanShu.Name = "tsmiXiuGaiXiangJiCanShu";
+            this.tsmiXiuGaiXiangJiCanShu.Size = new System.Drawing.Size(224, 26);
+            this.tsmiXiuGaiXiangJiCanShu.Text = "连接相机";
+            // 
+            // tsmiJiZhun
+            // 
+            this.tsmiJiZhun.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiSheZhiJiZhunDian});
+            this.tsmiJiZhun.Name = "tsmiJiZhun";
+            this.tsmiJiZhun.Size = new System.Drawing.Size(53, 24);
+            this.tsmiJiZhun.Text = "基准";
+            // 
+            // tsmiSheZhiJiZhunDian
+            // 
+            this.tsmiSheZhiJiZhunDian.Name = "tsmiSheZhiJiZhunDian";
+            this.tsmiSheZhiJiZhunDian.Size = new System.Drawing.Size(224, 26);
+            this.tsmiSheZhiJiZhunDian.Text = "设置基准点";
+            // 
+            // tsmiBiaoDing
+            // 
+            this.tsmiBiaoDing.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiSheZhiYinDaoBiaoDing});
+            this.tsmiBiaoDing.Name = "tsmiBiaoDing";
+            this.tsmiBiaoDing.Size = new System.Drawing.Size(53, 24);
+            this.tsmiBiaoDing.Text = "标定";
+            // 
+            // tsmiSheZhiYinDaoBiaoDing
+            // 
+            this.tsmiSheZhiYinDaoBiaoDing.Name = "tsmiSheZhiYinDaoBiaoDing";
+            this.tsmiSheZhiYinDaoBiaoDing.Size = new System.Drawing.Size(224, 26);
+            this.tsmiSheZhiYinDaoBiaoDing.Text = "设置引导标定";
+            // 
+            // tsmiTongXin
+            // 
+            this.tsmiTongXin.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiXiuGaiTongXinFangShi});
+            this.tsmiTongXin.Name = "tsmiTongXin";
+            this.tsmiTongXin.Size = new System.Drawing.Size(53, 24);
+            this.tsmiTongXin.Text = "通信";
+            // 
+            // tsmiXiuGaiTongXinFangShi
+            // 
+            this.tsmiXiuGaiTongXinFangShi.Name = "tsmiXiuGaiTongXinFangShi";
+            this.tsmiXiuGaiTongXinFangShi.Size = new System.Drawing.Size(224, 26);
+            this.tsmiXiuGaiTongXinFangShi.Text = "修改通信方式";
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 1, 0);
+            this.tableLayoutPanel1.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 36);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1262, 717);
+            this.tableLayoutPanel1.TabIndex = 5;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.BackColor = System.Drawing.SystemColors.Control;
+            this.tableLayoutPanel2.ColumnCount = 1;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Controls.Add(this.cogRecordDisplay1, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.tabControl1, 0, 1);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 66.57081F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.42919F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(625, 711);
+            this.tableLayoutPanel2.TabIndex = 0;
+            // 
+            // cogRecordDisplay1
+            // 
+            this.cogRecordDisplay1.ColorMapLowerClipColor = System.Drawing.Color.Black;
+            this.cogRecordDisplay1.ColorMapLowerRoiLimit = 0D;
+            this.cogRecordDisplay1.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
+            this.cogRecordDisplay1.ColorMapUpperClipColor = System.Drawing.Color.Black;
+            this.cogRecordDisplay1.ColorMapUpperRoiLimit = 1D;
+            this.cogRecordDisplay1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cogRecordDisplay1.DoubleTapZoomCycleLength = 2;
+            this.cogRecordDisplay1.DoubleTapZoomSensitivity = 2.5D;
+            this.cogRecordDisplay1.Location = new System.Drawing.Point(3, 3);
+            this.cogRecordDisplay1.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
+            this.cogRecordDisplay1.MouseWheelSensitivity = 1D;
+            this.cogRecordDisplay1.Name = "cogRecordDisplay1";
+            this.cogRecordDisplay1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cogRecordDisplay1.OcxState")));
+            this.cogRecordDisplay1.Size = new System.Drawing.Size(619, 467);
+            this.cogRecordDisplay1.TabIndex = 0;
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.BackColor = System.Drawing.SystemColors.Info;
+            this.tableLayoutPanel3.ColumnCount = 1;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Controls.Add(this.cogRecordDisplay2, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel4, 0, 1);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(634, 3);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 2;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 66.38432F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.61568F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(625, 711);
+            this.tableLayoutPanel3.TabIndex = 1;
+            // 
+            // cogRecordDisplay2
+            // 
+            this.cogRecordDisplay2.ColorMapLowerClipColor = System.Drawing.Color.Black;
+            this.cogRecordDisplay2.ColorMapLowerRoiLimit = 0D;
+            this.cogRecordDisplay2.ColorMapPredefined = Cognex.VisionPro.Display.CogDisplayColorMapPredefinedConstants.None;
+            this.cogRecordDisplay2.ColorMapUpperClipColor = System.Drawing.Color.Black;
+            this.cogRecordDisplay2.ColorMapUpperRoiLimit = 1D;
+            this.cogRecordDisplay2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cogRecordDisplay2.DoubleTapZoomCycleLength = 2;
+            this.cogRecordDisplay2.DoubleTapZoomSensitivity = 2.5D;
+            this.cogRecordDisplay2.Location = new System.Drawing.Point(3, 3);
+            this.cogRecordDisplay2.MouseWheelMode = Cognex.VisionPro.Display.CogDisplayMouseWheelModeConstants.Zoom1;
+            this.cogRecordDisplay2.MouseWheelSensitivity = 1D;
+            this.cogRecordDisplay2.Name = "cogRecordDisplay2";
+            this.cogRecordDisplay2.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("cogRecordDisplay2.OcxState")));
+            this.cogRecordDisplay2.Size = new System.Drawing.Size(619, 465);
+            this.cogRecordDisplay2.TabIndex = 1;
+            // 
+            // 修改相机参数ToolStripMenuItem
+            // 
+            this.修改相机参数ToolStripMenuItem.Name = "修改相机参数ToolStripMenuItem";
+            this.修改相机参数ToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.修改相机参数ToolStripMenuItem.Text = "修改相机参数";
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.tableLayoutPanel4.ColumnCount = 2;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.Controls.Add(this.groupBox2, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.groupBox3, 1, 0);
+            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 474);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 1;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(619, 234);
+            this.tableLayoutPanel4.TabIndex = 2;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.listBox1);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox2.Location = new System.Drawing.Point(3, 3);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(303, 228);
+            this.groupBox2.TabIndex = 0;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "日志";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.button3);
+            this.groupBox3.Controls.Add(this.button2);
+            this.groupBox3.Controls.Add(this.button1);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox3.Location = new System.Drawing.Point(312, 3);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(304, 228);
+            this.groupBox3.TabIndex = 1;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "功能区";
+            // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button1.Location = new System.Drawing.Point(6, 24);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(100, 44);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "采集图像";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button2.Location = new System.Drawing.Point(140, 24);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(100, 44);
+            this.button2.TabIndex = 1;
+            this.button2.Text = "执行检测";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button3
+            // 
+            this.button3.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button3.Location = new System.Drawing.Point(6, 91);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(100, 44);
+            this.button3.TabIndex = 2;
+            this.button3.Text = "加载数据";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(3, 476);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(619, 232);
+            this.tabControl1.TabIndex = 1;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.grpJianCeJieGuo);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(611, 203);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "检测结果";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.dataGridView1);
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(611, 203);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "检测记录";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2,
+            this.Column3,
+            this.Column4,
+            this.Column5});
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(3, 3);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 51;
+            this.dataGridView1.RowTemplate.Height = 27;
+            this.dataGridView1.Size = new System.Drawing.Size(605, 197);
+            this.dataGridView1.TabIndex = 1;
+            // 
+            // grpJianCeJieGuo
+            // 
+            this.grpJianCeJieGuo.BackColor = System.Drawing.Color.White;
+            this.grpJianCeJieGuo.Controls.Add(this.tlpJieGuo);
+            this.grpJianCeJieGuo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpJianCeJieGuo.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.grpJianCeJieGuo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(41)))), ((int)(((byte)(55)))));
+            this.grpJianCeJieGuo.Location = new System.Drawing.Point(3, 3);
+            this.grpJianCeJieGuo.Margin = new System.Windows.Forms.Padding(0, 0, 0, 8);
+            this.grpJianCeJieGuo.Name = "grpJianCeJieGuo";
+            this.grpJianCeJieGuo.Padding = new System.Windows.Forms.Padding(12, 6, 12, 12);
+            this.grpJianCeJieGuo.Size = new System.Drawing.Size(605, 197);
+            this.grpJianCeJieGuo.TabIndex = 2;
+            this.grpJianCeJieGuo.TabStop = false;
+            this.grpJianCeJieGuo.Text = "检测结果";
+            // 
+            // tlpJieGuo
+            // 
+            this.tlpJieGuo.ColumnCount = 4;
+            this.tlpJieGuo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 64F));
+            this.tlpJieGuo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpJieGuo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 64F));
+            this.tlpJieGuo.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tlpJieGuo.Controls.Add(this.lblOK, 0, 0);
+            this.tlpJieGuo.Controls.Add(this.txtOK, 1, 0);
+            this.tlpJieGuo.Controls.Add(this.lblNG, 2, 0);
+            this.tlpJieGuo.Controls.Add(this.txtNG, 3, 0);
+            this.tlpJieGuo.Controls.Add(this.lblLiangPinLv, 0, 1);
+            this.tlpJieGuo.Controls.Add(this.txtLiangPinLv, 1, 1);
+            this.tlpJieGuo.Controls.Add(this.lblZongShu, 2, 1);
+            this.tlpJieGuo.Controls.Add(this.txtZongShu, 3, 1);
+            this.tlpJieGuo.Controls.Add(this.btnQingLing, 3, 2);
+            this.tlpJieGuo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tlpJieGuo.Location = new System.Drawing.Point(12, 30);
+            this.tlpJieGuo.Margin = new System.Windows.Forms.Padding(0);
+            this.tlpJieGuo.Name = "tlpJieGuo";
+            this.tlpJieGuo.RowCount = 3;
+            this.tlpJieGuo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
+            this.tlpJieGuo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
+            this.tlpJieGuo.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpJieGuo.Size = new System.Drawing.Size(581, 155);
+            this.tlpJieGuo.TabIndex = 0;
+            // 
+            // lblOK
+            // 
+            this.lblOK.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblOK.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblOK.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(85)))), ((int)(((byte)(99)))));
+            this.lblOK.Location = new System.Drawing.Point(0, 0);
+            this.lblOK.Margin = new System.Windows.Forms.Padding(0, 0, 4, 0);
+            this.lblOK.Name = "lblOK";
+            this.lblOK.Size = new System.Drawing.Size(60, 46);
+            this.lblOK.TabIndex = 0;
+            this.lblOK.Text = "OK：";
+            this.lblOK.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // txtOK
+            // 
+            this.txtOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtOK.BackColor = System.Drawing.Color.White;
+            this.txtOK.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtOK.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txtOK.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(41)))), ((int)(((byte)(55)))));
+            this.txtOK.Location = new System.Drawing.Point(70, 7);
+            this.txtOK.Margin = new System.Windows.Forms.Padding(6, 0, 10, 0);
+            this.txtOK.Name = "txtOK";
+            this.txtOK.ReadOnly = true;
+            this.txtOK.Size = new System.Drawing.Size(210, 32);
+            this.txtOK.TabIndex = 1;
+            this.txtOK.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // lblNG
+            // 
+            this.lblNG.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblNG.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblNG.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(85)))), ((int)(((byte)(99)))));
+            this.lblNG.Location = new System.Drawing.Point(296, 0);
+            this.lblNG.Margin = new System.Windows.Forms.Padding(6, 0, 4, 0);
+            this.lblNG.Name = "lblNG";
+            this.lblNG.Size = new System.Drawing.Size(54, 46);
+            this.lblNG.TabIndex = 2;
+            this.lblNG.Text = "NG：";
+            this.lblNG.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // txtNG
+            // 
+            this.txtNG.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtNG.BackColor = System.Drawing.Color.White;
+            this.txtNG.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNG.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txtNG.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(41)))), ((int)(((byte)(55)))));
+            this.txtNG.Location = new System.Drawing.Point(360, 7);
+            this.txtNG.Margin = new System.Windows.Forms.Padding(6, 0, 4, 0);
+            this.txtNG.Name = "txtNG";
+            this.txtNG.ReadOnly = true;
+            this.txtNG.Size = new System.Drawing.Size(217, 32);
+            this.txtNG.TabIndex = 3;
+            this.txtNG.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // lblLiangPinLv
+            // 
+            this.lblLiangPinLv.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblLiangPinLv.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblLiangPinLv.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(85)))), ((int)(((byte)(99)))));
+            this.lblLiangPinLv.Location = new System.Drawing.Point(0, 46);
+            this.lblLiangPinLv.Margin = new System.Windows.Forms.Padding(0, 0, 4, 0);
+            this.lblLiangPinLv.Name = "lblLiangPinLv";
+            this.lblLiangPinLv.Size = new System.Drawing.Size(60, 46);
+            this.lblLiangPinLv.TabIndex = 4;
+            this.lblLiangPinLv.Text = "良品率：";
+            this.lblLiangPinLv.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // txtLiangPinLv
+            // 
+            this.txtLiangPinLv.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtLiangPinLv.BackColor = System.Drawing.Color.White;
+            this.txtLiangPinLv.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtLiangPinLv.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txtLiangPinLv.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(41)))), ((int)(((byte)(55)))));
+            this.txtLiangPinLv.Location = new System.Drawing.Point(70, 53);
+            this.txtLiangPinLv.Margin = new System.Windows.Forms.Padding(6, 0, 10, 0);
+            this.txtLiangPinLv.Name = "txtLiangPinLv";
+            this.txtLiangPinLv.ReadOnly = true;
+            this.txtLiangPinLv.Size = new System.Drawing.Size(210, 32);
+            this.txtLiangPinLv.TabIndex = 5;
+            this.txtLiangPinLv.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // lblZongShu
+            // 
+            this.lblZongShu.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblZongShu.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblZongShu.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(85)))), ((int)(((byte)(99)))));
+            this.lblZongShu.Location = new System.Drawing.Point(296, 46);
+            this.lblZongShu.Margin = new System.Windows.Forms.Padding(6, 0, 4, 0);
+            this.lblZongShu.Name = "lblZongShu";
+            this.lblZongShu.Size = new System.Drawing.Size(54, 46);
+            this.lblZongShu.TabIndex = 6;
+            this.lblZongShu.Text = "总数：";
+            this.lblZongShu.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // txtZongShu
+            // 
+            this.txtZongShu.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtZongShu.BackColor = System.Drawing.Color.White;
+            this.txtZongShu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtZongShu.Font = new System.Drawing.Font("微软雅黑", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txtZongShu.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(41)))), ((int)(((byte)(55)))));
+            this.txtZongShu.Location = new System.Drawing.Point(360, 53);
+            this.txtZongShu.Margin = new System.Windows.Forms.Padding(6, 0, 4, 0);
+            this.txtZongShu.Name = "txtZongShu";
+            this.txtZongShu.ReadOnly = true;
+            this.txtZongShu.Size = new System.Drawing.Size(217, 32);
+            this.txtZongShu.TabIndex = 7;
+            this.txtZongShu.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // btnQingLing
+            // 
+            this.btnQingLing.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnQingLing.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(249)))), ((int)(((byte)(251)))));
+            this.btnQingLing.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnQingLing.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(225)))), ((int)(((byte)(231)))));
+            this.btnQingLing.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(232)))), ((int)(((byte)(236)))), ((int)(((byte)(241)))));
+            this.btnQingLing.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(245)))), ((int)(((byte)(249)))));
+            this.btnQingLing.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnQingLing.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.btnQingLing.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(65)))), ((int)(((byte)(81)))));
+            this.btnQingLing.Location = new System.Drawing.Point(481, 98);
+            this.btnQingLing.Margin = new System.Windows.Forms.Padding(0, 6, 4, 0);
+            this.btnQingLing.Name = "btnQingLing";
+            this.btnQingLing.Size = new System.Drawing.Size(96, 28);
+            this.btnQingLing.TabIndex = 8;
+            this.btnQingLing.Text = "清零";
+            this.btnQingLing.UseVisualStyleBackColor = false;
+            // 
+            // listBox1
+            // 
+            this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.ItemHeight = 15;
+            this.listBox1.Location = new System.Drawing.Point(3, 21);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(297, 204);
+            this.listBox1.TabIndex = 0;
+            // 
+            // Column1
+            // 
+            this.Column1.DataPropertyName = "Time";
+            this.Column1.HeaderText = "时间";
+            this.Column1.MinimumWidth = 6;
+            this.Column1.Name = "Column1";
+            this.Column1.Width = 125;
+            // 
+            // Column2
+            // 
+            this.Column2.DataPropertyName = "HeGeNum";
+            this.Column2.HeaderText = "合格数量";
+            this.Column2.MinimumWidth = 6;
+            this.Column2.Name = "Column2";
+            this.Column2.Width = 125;
+            // 
+            // Column3
+            // 
+            this.Column3.DataPropertyName = "QueXianNum";
+            this.Column3.HeaderText = "缺陷数量";
+            this.Column3.MinimumWidth = 6;
+            this.Column3.Name = "Column3";
+            this.Column3.Width = 125;
+            // 
+            // Column4
+            // 
+            this.Column4.DataPropertyName = "QueShiNum";
+            this.Column4.HeaderText = "缺失数量";
+            this.Column4.MinimumWidth = 6;
+            this.Column4.Name = "Column4";
+            this.Column4.Width = 125;
+            // 
+            // Column5
+            // 
+            this.Column5.DataPropertyName = "JieGuo";
+            this.Column5.HeaderText = "结果";
+            this.Column5.MinimumWidth = 6;
+            this.Column5.Name = "Column5";
+            this.Column5.Width = 125;
+            // 
+            // MainForm
+            // 
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.ClientSize = new System.Drawing.Size(1262, 753);
+            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.mnsCaiDan);
+            this.Name = "MainForm";
+            this.Text = "MainForm";
+            this.mnsCaiDan.ResumeLayout(false);
+            this.mnsCaiDan.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.cogRecordDisplay1)).EndInit();
+            this.tableLayoutPanel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.cogRecordDisplay2)).EndInit();
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.grpJianCeJieGuo.ResumeLayout(false);
+            this.tlpJieGuo.ResumeLayout(false);
+            this.tlpJieGuo.PerformLayout();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.MenuStrip mnsCaiDan;
+        private System.Windows.Forms.ToolStripMenuItem tsmiBianJiZuoYe;
+        private System.Windows.Forms.ToolStripMenuItem tsmiCeLiangDianPian;
+        private System.Windows.Forms.ToolStripMenuItem tsmiShuJu;
+        private System.Windows.Forms.ToolStripMenuItem tsmiXiuGaiBaoCunShuJu;
+        private System.Windows.Forms.ToolStripMenuItem tsmiXiangJi;
+        private System.Windows.Forms.ToolStripMenuItem tsmiXiuGaiXiangJiCanShu;
+        private System.Windows.Forms.ToolStripMenuItem tsmiJiZhun;
+        private System.Windows.Forms.ToolStripMenuItem tsmiSheZhiJiZhunDian;
+        private System.Windows.Forms.ToolStripMenuItem tsmiBiaoDing;
+        private System.Windows.Forms.ToolStripMenuItem tsmiSheZhiYinDaoBiaoDing;
+        private System.Windows.Forms.ToolStripMenuItem tsmiTongXin;
+        private System.Windows.Forms.ToolStripMenuItem tsmiXiuGaiTongXinFangShi;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private Cognex.VisionPro.CogRecordDisplay cogRecordDisplay1;
+        private Cognex.VisionPro.CogRecordDisplay cogRecordDisplay2;
+        private System.Windows.Forms.ToolStripMenuItem 修改相机参数ToolStripMenuItem;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.GroupBox grpJianCeJieGuo;
+        private System.Windows.Forms.TableLayoutPanel tlpJieGuo;
+        private System.Windows.Forms.Label lblOK;
+        private System.Windows.Forms.TextBox txtOK;
+        private System.Windows.Forms.Label lblNG;
+        private System.Windows.Forms.TextBox txtNG;
+        private System.Windows.Forms.Label lblLiangPinLv;
+        private System.Windows.Forms.TextBox txtLiangPinLv;
+        private System.Windows.Forms.Label lblZongShu;
+        private System.Windows.Forms.TextBox txtZongShu;
+        private System.Windows.Forms.Button btnQingLing;
+        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+    }
+}
