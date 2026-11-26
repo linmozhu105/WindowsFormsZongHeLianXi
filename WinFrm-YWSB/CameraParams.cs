@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WindowsForm_DianPIan
+namespace WinFrm_YWSB
 {
     /// <summary>
     /// 相机参数实体类

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace WindowsFormsApp1
+namespace WinFrm_YWSB
 {
     /// <summary>
     /// INI 配置文件读写工具类

@@ -9,9 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Cognex.VisionPro;
-using WindowsFormsApp1;
 
-namespace WindowsForm_DianPIan
+namespace WinFrm_YWSB
 {
     #region 委托声明
     /// <summary>

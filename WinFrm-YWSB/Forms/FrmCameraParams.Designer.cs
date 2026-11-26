@@ -1,4 +1,4 @@
-﻿namespace WindowsForm_DianPIan
+﻿namespace WinFrm_YWSB
 {
     partial class FrmCameraParams
     {

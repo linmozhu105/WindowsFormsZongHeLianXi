@@ -8,8 +8,6 @@ using System.Threading;
 using System.Windows.Forms;
 using Cognex.VisionPro;
 using Cognex.VisionPro.ToolBlock;
-using WindowsForm_DianPIan;
-using WindowsFormsApp1;
 
 namespace WinFrm_YWSB
 {
@@ -284,7 +282,122 @@ namespace WinFrm_YWSB
 
         #endregion
 
-        #region 八、图像来源：本地图片
+        #region 八、后台加载：检测记录
+
+        /// <summary>
+        /// 后台线程读取本月 CSV 明细，读完回到 UI 线程绑定到表格。
+        /// 读文件不放 UI 线程，是为了避免磁盘慢时界面卡住。
+        /// </summary>
+        private void LoadCsvInThread()
+        {
+            Thread thread = new Thread(() =>
+            {
+                try
+                {
+                    BindingList<CsvData> data = CsvAPI.ReadCsv();
+                    if (data == null)                 // 文件不存在时 ReadCsv 返回 null
+                    {
+                        data = new BindingList<CsvData>();
+                    }
+                    BindCsvData(data);
+                }
+                catch (Exception ex)
+                {
+                    try
+                    {
+                        this.Invoke(new Action(() => AppendLog($"读取检测记录失败：{ex.Message}")));
+                    }
+                    catch { }   // 窗体已关闭时 Invoke 也会抛，这里吞掉即可
+                }
+            });
+            thread.IsBackground = true;
+            thread.Start();
+        }
+
+        /// <summary>
+        /// 把读到的集合换成表格的数据源，必须在 UI 线程执行。
+        /// 注意：更换 list 之后必须紧接着重绑 DataSource，
+        /// 只换字段不重绑，表格还指着旧对象，界面看起来“没有反应”。
+        /// </summary>
+        private void BindCsvData(BindingList<CsvData> data)
+        {
+            if (this.IsDisposed) return;      // 窗体已关闭就不再碰控件
+
+            if (this.InvokeRequired)          // 子线程调进来时，转给 UI 线程再执行
+            {
+                this.Invoke(new Action(() => BindCsvData(data)));
+                return;
+            }
+
+            list = data;
+            dgvJianCeJiLu.DataSource = list;
+
+            if (list.Count == 0)
+            {
+                AppendLog("本月暂无检测记录");
+            }
+            else
+            {
+                AppendLog($"检测记录加载完成，共 {list.Count} 条");
+            }
+        }
+
+        #endregion
+
+        #region 九、后台加载：检测结果统计
+
+        /// <summary>
+        /// 后台线程读 INI 里的 OK / NG，回 UI 线程还原成产量统计。
+        /// Rate、Total 都是派生值（Rate = OK / Total，Total = OK + NG），
+        /// 读回来也不用来覆盖，避免 ini 被手改后界面数字自相矛盾。
+        /// </summary>
+        private void LoadIniInThread()
+        {
+            Thread thread = new Thread(() =>
+            {
+                try
+                {
+                    string okStr = IniAPI.INIGetStringValue(iniFile, "检测结果存储", "OK", "0");
+                    string ngStr = IniAPI.INIGetStringValue(iniFile, "检测结果存储", "NG", "0");
+
+                    this.Invoke(new Action(() => ApplyCheckResult(okStr, ngStr)));
+                }
+                catch (Exception ex)
+                {
+                    try
+                    {
+                        this.Invoke(new Action(() => AppendLog($"读取检测结果失败：{ex.Message}")));
+                    }
+                    catch { }
+                }
+            });
+            thread.IsBackground = true;
+            thread.Start();
+        }
+
+        /// <summary>
+        /// 把 INI 里读到的字符串还原成产量统计并刷新面板，必须在 UI 线程调用。
+        /// 用 TryParse 而不是 Convert：ini 被手工改坏时只会变 0，不会 crash。
+        /// </summary>
+        private void ApplyCheckResult(string okStr, string ngStr)
+        {
+            if (this.IsDisposed) return;
+
+            int ok = 0;
+            int ng = 0;
+            int.TryParse(okStr, out ok);
+            int.TryParse(ngStr, out ng);
+
+            OKCount = ok;      // 字段只在 UI 线程赋值，和检测按钮不冲突
+            NGCount = ng;
+
+            RefreshResultPanel();   // 总数、良品率都按 OK/NG 重算
+            AppendLog($"产量统计加载完成：OK={ok}，NG={ng}");
+        }
+
+        #endregion
+
+        #region 十、图像来源：本地图片
 
         /// <summary>
         /// “选择图像”：从磁盘选一张图，转成 CogImage24PlanarColor 显示在左侧。
@@ -310,9 +423,9 @@ namespace WinFrm_YWSB
 
         #endregion
 
-        #region 九、图像来源：相机
+        #region 十一、图像来源：相机
 
-        #region 9.1 连接相机与采集初始化
+        #region 11.1 连接相机与采集初始化
 
         /// <summary>
         /// “连接相机”：枚举本机采集设备，取第一个并创建 8 位灰度 FIFO，
@@ -370,7 +483,7 @@ namespace WinFrm_YWSB
 
         #endregion
 
-        #region 9.2 采集完成回调
+        #region 11.2 采集完成回调
 
         /// <summary>
         /// FIFO 采集完成回调（在采集线程里触发，一次可能积压多张图）。
@@ -434,7 +547,7 @@ namespace WinFrm_YWSB
 
         #endregion
 
-        #region 9.3 采集控制：单次 / 连续 / 停止
+        #region 11.3 采集控制：单次 / 连续 / 停止
 
         /// <summary>
         /// “相机采集”：单次采集一张。
@@ -511,7 +624,7 @@ namespace WinFrm_YWSB
 
         #endregion
 
-        #region 十、执行检测
+        #region 十二、执行检测
 
         /// <summary>
         /// “执行检测”：图像灌入工具块 → 跑一次 → 取检测图像 → 解析输出 →
@@ -596,69 +709,7 @@ namespace WinFrm_YWSB
 
         #endregion
 
-        #region 十一、后台加载：检测记录
-
-        /// <summary>
-        /// 后台线程读取本月 CSV 明细，读完回到 UI 线程绑定到表格。
-        /// 读文件不放 UI 线程，是为了避免磁盘慢时界面卡住。
-        /// </summary>
-        private void LoadCsvInThread()
-        {
-            Thread thread = new Thread(() =>
-            {
-                try
-                {
-                    BindingList<CsvData> data = CsvAPI.ReadCsv();
-                    if (data == null)                 // 文件不存在时 ReadCsv 返回 null
-                    {
-                        data = new BindingList<CsvData>();
-                    }
-                    BindCsvData(data);
-                }
-                catch (Exception ex)
-                {
-                    try
-                    {
-                        this.Invoke(new Action(() => AppendLog($"读取检测记录失败：{ex.Message}")));
-                    }
-                    catch { }   // 窗体已关闭时 Invoke 也会抛，这里吞掉即可
-                }
-            });
-            thread.IsBackground = true;
-            thread.Start();
-        }
-
-        /// <summary>
-        /// 把读到的集合换成表格的数据源，必须在 UI 线程执行。
-        /// 注意：更换 list 之后必须紧接着重绑 DataSource，
-        /// 只换字段不重绑，表格还指着旧对象，界面看起来“没有反应”。
-        /// </summary>
-        private void BindCsvData(BindingList<CsvData> data)
-        {
-            if (this.IsDisposed) return;      // 窗体已关闭就不再碰控件
-
-            if (this.InvokeRequired)          // 子线程调进来时，转给 UI 线程再执行
-            {
-                this.Invoke(new Action(() => BindCsvData(data)));
-                return;
-            }
-
-            list = data;
-            dgvJianCeJiLu.DataSource = list;
-
-            if (list.Count == 0)
-            {
-                AppendLog("本月暂无检测记录");
-            }
-            else
-            {
-                AppendLog($"检测记录加载完成，共 {list.Count} 条");
-            }
-        }
-
-        #endregion
-
-        #region 十二、检测记录表格：刷新
+        #region 十三、检测记录表格：刷新
 
         /// <summary>
         /// “加载数据”：重新读一次本月 CSV 并刷新表格。
@@ -668,59 +719,6 @@ namespace WinFrm_YWSB
         {
             AppendLog("开始刷新历史数据…");
             LoadCsvInThread();
-        }
-
-        #endregion
-
-        #region 十三、后台加载：检测结果统计
-
-        /// <summary>
-        /// 后台线程读 INI 里的 OK / NG，回 UI 线程还原成产量统计。
-        /// Rate、Total 都是派生值（Rate = OK / Total，Total = OK + NG），
-        /// 读回来也不用来覆盖，避免 ini 被手改后界面数字自相矛盾。
-        /// </summary>
-        private void LoadIniInThread()
-        {
-            Thread thread = new Thread(() =>
-            {
-                try
-                {
-                    string okStr = IniAPI.INIGetStringValue(iniFile, "检测结果存储", "OK", "0");
-                    string ngStr = IniAPI.INIGetStringValue(iniFile, "检测结果存储", "NG", "0");
-
-                    this.Invoke(new Action(() => ApplyCheckResult(okStr, ngStr)));
-                }
-                catch (Exception ex)
-                {
-                    try
-                    {
-                        this.Invoke(new Action(() => AppendLog($"读取检测结果失败：{ex.Message}")));
-                    }
-                    catch { }
-                }
-            });
-            thread.IsBackground = true;
-            thread.Start();
-        }
-
-        /// <summary>
-        /// 把 INI 里读到的字符串还原成产量统计并刷新面板，必须在 UI 线程调用。
-        /// 用 TryParse 而不是 Convert：ini 被手工改坏时只会变 0，不会 crash。
-        /// </summary>
-        private void ApplyCheckResult(string okStr, string ngStr)
-        {
-            if (this.IsDisposed) return;
-
-            int ok = 0;
-            int ng = 0;
-            int.TryParse(okStr, out ok);
-            int.TryParse(ngStr, out ng);
-
-            OKCount = ok;      // 字段只在 UI 线程赋值，和检测按钮不冲突
-            NGCount = ng;
-
-            RefreshResultPanel();   // 总数、良品率都按 OK/NG 重算
-            AppendLog($"产量统计加载完成：OK={ok}，NG={ng}");
         }
 
         #endregion
@@ -863,6 +861,7 @@ namespace WinFrm_YWSB
         }
 
         #endregion
+
 
         /// <summary>
         /// “通信 → 开启通信 / 关闭通信”开关。
